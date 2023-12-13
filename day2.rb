@@ -3,12 +3,13 @@ require 'byebug'
 input = File.read('day2_input.txt').split("\n")
 
 class Game
-  attr_reader :row, :sets, :max_values, :id
+  attr_reader :row, :sets, :max_values, :id, :picks
 
   def initialize(row, max_values)
     @max_values = max_values
     @row = row
     @sets = @row.split(':').last.split(';')
+    @picks = @sets.map { |set| set.split(',').map(&:strip) }.flatten
     @id = @row.match(/Game\s+(\d*)/i).captures[0].to_i
   end
 
@@ -17,18 +18,14 @@ class Game
   end
 
   def valid?
-    sets.all? do |set|
-      picks = set.split(',').map(&:strip)
-      picks.all? do |pick|
-        valid_pick?(pick)
-      end
+    picks.all? do |pick|
+      valid_pick?(pick)
     end
   end
 
   def valid_pick?(pick)
-    captures = pick.match(/(?<number>\d*)\s+(?<color>\w*)/i).named_captures
-    number = captures['number'].to_i
-    color = captures['color']
+    number, color = pick.strip.split(' ')
+    number = number.to_i
     number <= max_values[color]
   end
 end
