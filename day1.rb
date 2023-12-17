@@ -1,6 +1,4 @@
-require 'byebug'
-
-input = File.read('day1_input.txt').split("\n")
+input = File.read("day1_input.txt").strip.split("\n")
 
 NUMBERS = {
   "0" => "0",
@@ -22,7 +20,7 @@ NUMBERS = {
   "4" => "4",
   "four" => "4",
   "ruof" => "4",
-  
+
   "5" => "5",
   "five" => "5",
   "evif" => "5",
